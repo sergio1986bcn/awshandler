@@ -1,0 +1,35 @@
+name: Flake8 Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  flake8:
+    name: Run Flake8
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11.4
+
+      - name: Install dependencies
+        run: pip install flake8
+
+      - name: Run Flake8
+        run: flake8
+
+      - name: Check Flake8 output
+        run: |
+          if [[ $? -ne 0 ]]; then
+            echo "Flake8 found issues. Please fix the errors before creating a pull request."
+            exit 1
+          else
+            echo "Flake8 check passed. Proceeding with the pull request."
+          fi
