@@ -19,10 +19,6 @@ import update
 #     aws_select_profile
 # )
 
-global version
-version = 'v0.1.0'
-
-
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
