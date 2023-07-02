@@ -26,8 +26,6 @@ def clear_screen():
 
 def main():
 
-    check_version.check()
-
     list = [
         "AWS Configure",
         "Select AWS account",
