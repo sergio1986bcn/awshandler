@@ -5,7 +5,7 @@ import signal
 import sys
 import os
 
-import check_version
+import update
 
 # from aws_credentials import (
 #     aws_add_credentials,
@@ -18,6 +18,9 @@ import check_version
 #     aws_list_profiles,
 #     aws_select_profile
 # )
+
+global version
+version = 'v0.1.0'
 
 
 def clear_screen():
