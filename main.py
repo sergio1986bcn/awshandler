@@ -5,17 +5,19 @@ import signal
 import sys
 import os
 
-from aws_credentials import (
-    aws_add_credentials,
-    aws_list_credentials,
-    aws_select_credentials,
-    aws_mfa
-)
-from aws_profiles import (
-    aws_add_profiles,
-    aws_list_profiles,
-    aws_select_profile
-)
+import check_version
+
+# from aws_credentials import (
+#     aws_add_credentials,
+#     aws_list_credentials,
+#     aws_select_credentials,
+#     aws_mfa
+# )
+# from aws_profiles import (
+#     aws_add_profiles,
+#     aws_list_profiles,
+#     aws_select_profile
+# )
 
 
 def clear_screen():
@@ -23,6 +25,9 @@ def clear_screen():
 
 
 def main():
+
+    check_version.check()
+
     list = [
         "AWS Configure",
         "Select AWS account",
