@@ -5,7 +5,7 @@ import signal
 import sys
 import os
 
-import update
+import check_version
 
 # from aws_credentials import (
 #     aws_add_credentials,
@@ -26,7 +26,7 @@ def clear_screen():
 
 def main():
 
-    update.check_update(version)
+    check_version.check()
 
     list = [
         "AWS Configure",
