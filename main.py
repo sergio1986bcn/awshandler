@@ -5,24 +5,31 @@ import signal
 import sys
 import os
 
-from aws_credentials import (
-    aws_add_credentials,
-    aws_list_credentials,
-    aws_select_credentials,
-    aws_mfa
-)
-from aws_profiles import (
-    aws_add_profiles,
-    aws_list_profiles,
-    aws_select_profile
-)
+import update
 
+# from aws_credentials import (
+#     aws_add_credentials,
+#     aws_list_credentials,
+#     aws_select_credentials,
+#     aws_mfa
+# )
+# from aws_profiles import (
+#     aws_add_profiles,
+#     aws_list_profiles,
+#     aws_select_profile
+# )
+
+global version
+version = 'v0.1.0'
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def main():
+
+    update.check_update(version)
+
     list = [
         "AWS Configure",
         "Select AWS account",
