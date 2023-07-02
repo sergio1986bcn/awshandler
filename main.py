@@ -19,12 +19,12 @@ import update
 #     aws_select_profile
 # )
 
+
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def main():
-
 
     update.check_update(version)
 
