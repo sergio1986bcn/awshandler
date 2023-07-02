@@ -33,12 +33,3 @@ jobs:
           else
             echo "Flake8 check passed. Proceeding with the pull request."
           fi
-      - name: Check PR branch
-        run: |
-          BRANCH_NAME=$(echo ${{ github.head_ref }})
-          if [[ "$BRANCH_NAME" != "develop" ]]; then
-            echo "Pull requests to 'main' can only be made from 'develop'. Please change your base branch."
-            exit 1
-          else
-            echo "Correct branch selected for pull request. Proceeding with the pull request."
-          fi
