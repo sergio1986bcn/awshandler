@@ -5,7 +5,7 @@ import signal
 import sys
 import os
 
-import update
+import check_version
 
 # from aws_credentials import (
 #     aws_add_credentials,
@@ -19,16 +19,13 @@ import update
 #     aws_select_profile
 # )
 
-global version
-version = 'v0.1.0'
-
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def main():
 
-    update.check_update(version)
+    check_version.check()
 
     list = [
         "AWS Configure",
