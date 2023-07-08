@@ -3,13 +3,15 @@
 import requests
 import time
 
+
 version = 'v0.0.1'
+
 
 def check():
     # Consulto los realease
-    response = requests.get(f"https://api.github.com/repos/sergio1986bcn/awshandler/releases")
+    response = requests.get("https://api.github.com/repos/sergio1986bcn/awshandler/releases")
     releases = response.json()
-    
+
     # Último release
     latest_release = releases[0]['tag_name']
 
