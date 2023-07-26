@@ -13,7 +13,10 @@ from pathlib import Path
 import logging
 import botocore.exceptions
 
+# Al importarlo, se ejecuta al iniciar el script
 import check_version
+
+import login_ecr
 
 # Variables globales
 home = str(Path.home())
@@ -32,7 +35,7 @@ logging.basicConfig(filename=os.path.join(dir_path, 'error.log'), level=logging.
 
 
 def clear_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system('clear')
 
 
 def aws_add_credentials():
@@ -285,6 +288,7 @@ def main():
         "Select AWS account",
         "MFA token",
         "Select AWS profile",
+        "Utilidades",
         "Exit"
     ]
 
@@ -326,6 +330,17 @@ def main():
         elif select == 3:
             aws_select_profile()
         elif select == 4:
+            list_credentials_menu = TerminalMenu(
+                menu_entries=[
+                    "Login ECR"
+                ],
+                clear_screen=True
+            )
+            sub_select = list_credentials_menu.show()
+            if sub_select == 0:
+                login_ecr.check_docker()
+                pass
+        elif select == 5:
             exit()
     clear_screen()
 
