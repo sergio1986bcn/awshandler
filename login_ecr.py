@@ -11,10 +11,10 @@ def check_docker():
     try:
         docker_client = docker.from_env()
         docker_client.ping()
-        print(f"El servicio docker está levantado...")
+        print("El servicio docker está levantado...")
         login(docker_client)
-    except docker.errors.DockerException as e:
-        print(f"El servicio docker no está levantado...")
+    except docker.errors.DockerException:
+        print("El servicio docker no está levantado...")
         time.sleep(2)
         return
 
