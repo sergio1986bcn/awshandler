@@ -8,7 +8,7 @@ AWSHandler es un script en Python para la gestión de servicios y recursos de AW
 - Selección de cuentas AWS.
 - Autenticación MFA.
 - Selección de perfiles AWS.
-- Autenticación Docker contre ECR.
+- Autenticación Docker contra ECR.
 
 ## Creación alias
 
