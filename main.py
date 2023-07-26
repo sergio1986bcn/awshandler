@@ -29,7 +29,12 @@ aws_credentials_file = home + "/.aws/credentials"
 aws_config_file = home + "/.aws/config"
 
 # Configura el registro
-logging.basicConfig(filename=os.path.join(dir_path, 'error.log'), level=logging.ERROR, format='%(asctime)s [%(levelname)s] - %(message)s', datefmt='%d-%m-%Y %H:%M:%S')
+logging.basicConfig(
+    filename=os.path.join(dir_path, 'error.log'),
+    level=logging.ERROR,
+    format='%(asctime)s [%(levelname)s] - %(message)s',
+    datefmt='%d-%m-%Y %H:%M:%S'
+)
 
 
 def clear_screen():
