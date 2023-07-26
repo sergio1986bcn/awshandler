@@ -22,4 +22,4 @@ def check():
 
         if version_number < latest_release_number:
             print("¡¡Hay una nueva realease disponible!!")
-            time.sleep(5)
+            time.sleep(1)
