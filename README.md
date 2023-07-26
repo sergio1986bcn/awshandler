@@ -14,7 +14,7 @@ AWSHandler es un script en Python para la gestión de servicios y recursos de AW
 
 Se tiene que modificar el archivo de configuración de la shell (.bashrc,.zshrc,...) y añadir la siguiente línea:
 
-alias handler='[ruta del pryecto]/main.py'
+alias handler='[ruta del proyecto]/main.py'
 
 ## Contribuciones
 
