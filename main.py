@@ -72,7 +72,7 @@ def aws_add_profiles():
     role = input("Introduce el arn del role de salto: ")
     source = input("Insstroduce el origen del salto: ")
     region = input("Introduce la region: ")
-    role_session_name = "smorales_nub"  # Nombre de la sesión asociado al role de salto
+    role_session_name = input("Introduce tu nombre de usuario AWS: ")
 
     # Valido si el origen del salto existe para insertar los datos en el archivo config
     if '[' + source + ']' in open(aws_credentials_file).read() or "mfa" in source:
@@ -145,7 +145,10 @@ def aws_mfa():
     aws_access_key_id = parser[credentials]['aws_access_key_id']
     aws_secret_access_key = parser[credentials]['aws_secret_access_key']
 
-    session = boto3.Session(aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
+    session = boto3.Session(
+        aws_access_key_id=aws_access_key_id,
+        aws_secret_access_key=aws_secret_access_key
+    )
     iam = session.client('iam')
     sts = session.client('sts')
 
@@ -154,7 +157,10 @@ def aws_mfa():
 
     if len(arn_mfa) > 1:
         mfa_device_arns = [device['SerialNumber'] for device in arn_mfa]
-        terminal_menu = TerminalMenu(mfa_device_arns, title="Selecciona el MFA que quieres utilizar:\n")
+        terminal_menu = TerminalMenu(
+            mfa_device_arns,
+            title="Selecciona el MFA que quieres utilizar:\n"
+        )
         selected_device_index = terminal_menu.show()
         arn_mfa = mfa_device_arns[selected_device_index]
     else:
@@ -182,7 +188,7 @@ def aws_mfa():
                     SerialNumber=arn_mfa,
                     TokenCode=mfa
                 )
-                break  # Si se obtienen las credenciales correctamente, sale del bucle
+                break
             except botocore.exceptions.ClientError as e:
                 if e.response['Error']['Code'] == 'AccessDenied':
                     logging.error("Error en el código MFA ingresado: %s", e)

@@ -23,7 +23,9 @@ def check_docker():
 def login(docker_client):
     client = boto3.client('ecr')
     response = client.get_authorization_token()
-    user, password = base64.b64decode(response['authorizationData'][0]['authorizationToken']).decode().split(':')
+    user, password = base64.b64decode(
+        response['authorizationData'][0]['authorizationToken']
+    ).decode().split(':')
     registry = response['authorizationData'][0]['proxyEndpoint']
 
     try:
