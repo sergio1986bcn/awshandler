@@ -13,9 +13,7 @@ from pathlib import Path
 import logging
 import botocore.exceptions
 
-# Al importarlo, se ejecuta al iniciar el script
 import check_version
-
 import login_ecr
 
 # Variables globales
