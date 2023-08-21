@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 
+from settings import config_file
+from logger import logger
+
 from simple_term_menu import TerminalMenu
 import signal
 import sys
@@ -10,7 +13,6 @@ import boto3
 import time
 import configparser
 from pathlib import Path
-import logging
 import botocore.exceptions
 
 import check_version
@@ -20,21 +22,8 @@ import login_ecr
 home = str(Path.home())
 parser = configparser.ConfigParser()
 
-# Ruta absoluta del directorio donde se encuentra el script
-dir_path = os.path.dirname(os.path.realpath(__file__))
-
-config_file = os.path.join(dir_path, 'config.ini')
-
 aws_credentials_file = home + "/.aws/credentials"
 aws_config_file = home + "/.aws/config"
-
-# Configura el registro
-logging.basicConfig(
-    filename=os.path.join(dir_path, 'error.log'),
-    level=logging.ERROR,
-    format='%(asctime)s [%(levelname)s] - %(message)s',
-    datefmt='%d-%m-%Y %H:%M:%S'
-)
 
 
 def clear_screen():
@@ -74,12 +63,12 @@ def aws_add_profiles():
     region = input("Introduce la region: ")
     role_session_name = input("Introduce tu nombre de usuario AWS: ")
 
-    # Valido si el origen del salto existe para insertar los datos en el archivo config
-    if '[' + source + ']' in open(aws_credentials_file).read() or "mfa" in source:
+    # Valida si el origen del salto existe
+    if f'[{source}]' in open(aws_credentials_file).read() or "mfa" in source:
 
         parser.clear()
         parser.read(aws_config_file)
-        parser['profile ' + name] = {
+        parser[f'profile {name}'] = {
             'role_arn': role,
             'source_profile': source,
             'region': region,
@@ -163,8 +152,12 @@ def aws_mfa():
         )
         selected_device_index = terminal_menu.show()
         arn_mfa = mfa_device_arns[selected_device_index]
-    else:
+    elif len(arn_mfa) == 1:
         arn_mfa = arn_mfa[0]['SerialNumber']
+    else:
+        print("No hay dispositivos MFA asociados al usuario...")
+        time.sleep(2)
+        return
 
     # Guardo el mfa seleccionado en el archivo de configuración
     parser.clear()
@@ -176,7 +169,7 @@ def aws_mfa():
     while True:
         mfa = input("Ingrese el código MFA: ")
         if len(mfa) != 6:
-            logging.error("El código MFA ingresado no tiene 6 dígitos --- %s", mfa)
+            logger.error("El código MFA ingresado no tiene 6 dígitos --- %s", mfa)
             os.system("clear")
             print("El código MFA ingresado no tiene 6 dígitos...")
             time.sleep(2)
@@ -191,14 +184,14 @@ def aws_mfa():
                 break
             except botocore.exceptions.ClientError as e:
                 if e.response['Error']['Code'] == 'AccessDenied':
-                    logging.error("Error en el código MFA ingresado: %s", e)
+                    logger.error("Error en el código MFA ingresado: %s", e)
                     os.system("clear")
                     print("Has introducido mal el MFA, inténtalo de nuevo.")
                     time.sleep(2)
                     os.system("clear")
                 else:
                     print("Error al obtener las credenciales MFA")
-                    logging.error("Error al obtener las credenciales MFA: %s", e)
+                    logger.error("Error al obtener las credenciales MFA: %s", e)
 
     parser.clear()
     parser.read(aws_credentials_file)
@@ -265,7 +258,7 @@ def aws_select_profile():
             break
         except botocore.exceptions.ClientError as e:
             if e.response['Error']['Code'] == 'ExpiredToken':
-                logging.error("Token expirado: %s", e)
+                logger.error("Token expirado: %s", e)
                 os.system("clear")
                 print("El token de seguridad ha expirado... Introdúcelo de nuevo...")
                 time.sleep(2)
@@ -274,7 +267,7 @@ def aws_select_profile():
 
             else:
                 print("Error al asumir el role...")
-                logging.error("Error al asumir el role: %s", e)
+                logger.error("Error al asumir el role: %s", e)
 
     # Inserto en el archivo credentials el usuario y contraseña temporal de CLI del profile seleccionado
     parser.clear()
