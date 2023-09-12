@@ -1,10 +1,15 @@
-import os
+from pathlib import Path
 
-# Ruta donde se encuentra el script
-dir_path = os.path.dirname(os.path.realpath(__file__))
+# Rutas definidas
+dir_path = Path(__file__).parent
+home = str(Path.home())
 
 # Ruta del archivo de log
-log_file = os.path.join(dir_path, 'error.log')
+log_file = dir_path / 'error.log'
 
 # Ruta del archivo de configuración
-config_file = os.path.join(dir_path, 'config.ini')
+config_file = dir_path / 'config.ini'
+
+# Rutas config aws cli
+aws_credentials_file = home + "/.aws/credentials"
+aws_config_file = home + "/.aws/config"
