@@ -1,32 +1,44 @@
 #!/usr/bin/python3
 
 import requests
-import time
+import zipfile
+import io
+import configparser
+from settings import config_file
 
+parser = configparser.ConfigParser()
 
 version = 'v0.0.2'
 
 
 def check():
-    # Consulto los realease
-    response = requests.get(
-        "https://api.github.com/repos/sergio1986bcn/awshandler/releases"
-    )
-    releases = response.json()
 
-    # Último release
-    latest_release = releases[0]['tag_name']
+    parser.read(config_file)
 
-    if latest_release:
-        # Quito la "v" de las versiones y convierto el número en entero
-        version_number = list(map(int, version.split('v')[-1].split('.')))
-        latest_release_number = list(
-            map(
-                int,
-                latest_release.split('v')[-1].split('.')
-            )
+    if parser['default'].getboolean('check_update', fallback=False):
+        # Consulto los realease
+        response = requests.get(
+            "https://api.github.com/repos/sergio1986bcn/awshandler/releases"
         )
+        releases = response.json()
 
-        if version_number < latest_release_number:
-            print("¡¡Hay una nueva realease disponible!!")
-            time.sleep(1)
+        # Último release
+        latest_release = releases[0]['tag_name']
+
+        if version < latest_release:
+            mensaje = input ("¡¡Hay una nueva realease disponible!! ¿Quieres actualizar? [S/n]")
+            
+            if mensaje in ['S', 's']:
+                # Obtiene la url del artefacto
+                zipball_url = releases[0].get("zipball_url")
+                # Descarga el archivo
+                response = requests.get(zipball_url)
+                # Crea un objeto de archivo zip en memoria a partir de los datos descargados
+                zip_data = io.BytesIO(response.content)
+                with zipfile.ZipFile(zip_data, 'r') as zip_ref:
+                    # Especifica la ubicación donde deseas extraer los archivos
+                    extract_path = "" 
+                    zip_ref.extractall(extract_path)
+
+            elif mensaje in ['N', 'n']:
+                exit()
