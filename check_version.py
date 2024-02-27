@@ -8,7 +8,7 @@ from settings import config_file
 
 parser = configparser.ConfigParser()
 
-version = 'v0.0.2'
+version = 'v0.1.0'
 
 
 def check():
