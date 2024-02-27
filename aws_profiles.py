@@ -16,18 +16,21 @@ parser = configparser.ConfigParser()
 def add():
     # Datos necesarios
     name = input("Introduce el nombre del perfil: ")
-    role = input("Introduce el arn del role de salto: ")
-    source = input("Insstroduce el origen del salto: ")
+    account = input("Introduce el número de cuenta AWS: ")
+    role = input("Introduce el nombre del role de salto: ")
+    source = input("Introduce el origen del salto: ")
     region = input("Introduce la region: ")
     role_session_name = input("Introduce tu nombre de usuario AWS: ")
 
     # Valida si el origen del salto existe
     if f'[{source}]' in open(aws_credentials_file).read() or "mfa" in source:
 
+        role_arn = f'arn:aws:iam::{account}:role/{role}'
+
         parser.clear()
         parser.read(aws_config_file)
         parser[f'profile {name}'] = {
-            'role_arn': role,
+            'role_arn': role_arn,
             'source_profile': source,
             'region': region,
             'role_session_name': role_session_name
