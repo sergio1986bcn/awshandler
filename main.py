@@ -5,6 +5,7 @@ import aws_profiles
 import aws_mfa
 import check_version
 import login_ecr
+import arguments
 
 
 from simple_term_menu import TerminalMenu
@@ -20,6 +21,9 @@ def clear_screen():
 def main():
 
     check_version.check()
+
+    # Argumentos del comando
+    args = arguments.parse_args()
 
     menu_entries = [
         "AWS Configure",
