@@ -59,3 +59,4 @@ def select():
     parser.set('general', 'account', profiles[menu_entry_index])
     with open(config_file, 'w') as configfile:
         parser.write(configfile)
+        

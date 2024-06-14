@@ -5,6 +5,7 @@ import aws_profiles
 import aws_mfa
 import check_version
 import login_ecr
+import ssh_key
 import arguments
 
 
@@ -42,7 +43,8 @@ def main():
             "List AWS profiles"
         ],
         "Utilidades": [
-            "Login ECR"
+            "Login ECR",
+            "Create SSH key"
         ]
     }
     
@@ -63,7 +65,8 @@ def main():
             3: aws_profiles.list
         },
         "Utilidades": {
-            0: login_ecr.check_docker
+            0: login_ecr.check_docker,
+            1: ssh_key.generate
         }
     }
     
