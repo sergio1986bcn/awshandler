@@ -1,11 +1,11 @@
 import getpass
 import configparser
-from settings import aws_credentials_file, aws_config_file, config_file
+from core.settings import aws_credentials_file, aws_config_file, config_file
 import re
 from simple_term_menu import TerminalMenu
+import os
 
 parser = configparser.ConfigParser()
-
 
 def add():
     project = input("Introduce el nombre del proyecto: ")
@@ -32,6 +32,7 @@ def add():
 
 
 def list():
+
     with open(aws_credentials_file, 'r') as infile:
         for line in infile:
             res = re.findall(r"\[([\w-]+)\]", line)

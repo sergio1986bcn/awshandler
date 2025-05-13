@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # Rutas definidas
-dir_path = Path(__file__).parent
+dir_path = Path(__file__).parent.parent
 home = str(Path.home())
 
 # Ruta del archivo de log

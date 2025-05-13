@@ -1,5 +1,5 @@
-from settings import aws_credentials_file, config_file
-from logger import logger
+from core.settings import aws_credentials_file, config_file
+from core.logger import logger
 
 from simple_term_menu import TerminalMenu
 import configparser

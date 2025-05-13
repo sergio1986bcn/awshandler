@@ -1,5 +1,5 @@
 import argparse
-from check_version import version
+from core.check_version import version
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Listado argumentos disponibles.')

@@ -4,7 +4,7 @@ import requests
 import zipfile
 import io
 import configparser
-from settings import config_file
+from core.settings import config_file
 
 parser = configparser.ConfigParser()
 

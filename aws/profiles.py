@@ -1,6 +1,6 @@
-from settings import aws_credentials_file, aws_config_file, config_file
-from logger import logger
-import aws_mfa
+from core.settings import aws_credentials_file, aws_config_file, config_file
+from core.logger import logger
+from aws import mfa
 
 import configparser
 import re

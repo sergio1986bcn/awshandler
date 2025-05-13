@@ -1,5 +1,5 @@
 import logging
-from settings import log_file
+from core.settings import log_file
 
 # Config de logging
 logging.basicConfig(

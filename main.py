@@ -1,23 +1,17 @@
 #!/usr/bin/python3
 
-import aws_credentials
-import aws_profiles
-import aws_mfa
-import check_version
-import login_ecr
-import ssh_key
+import aws
+from core import check_version, settings
+import utils
 import arguments
-
 
 from simple_term_menu import TerminalMenu
 import signal
 import sys
 import os
 
-
 def clear_screen():
     os.system('clear')
-
 
 def main():
 
@@ -50,23 +44,23 @@ def main():
     
     main_actions = {
         0: lambda: handle_sub_menu(sub_menu_entries["AWS Configure"]),
-        1: aws_credentials.select,
-        2: aws_mfa.check,
-        3: aws_profiles.select,
+        1: aws.credentials.select,
+        2: aws.mfa.check,
+        3: aws.profiles.select,
         4: lambda: handle_sub_menu(sub_menu_entries["Utilidades"]),
         5: sys.exit
     }
     
     sub_actions = {
         "AWS Configure": {
-            0: aws_credentials.add,
-            1: aws_profiles.add,
-            2: aws_credentials.list,
-            3: aws_profiles.list
+            0: aws.credentials.add,
+            1: aws.profiles.add,
+            2: aws.credentials.list,
+            3: aws.profiles.list
         },
         "Utilidades": {
-            0: login_ecr.check_docker,
-            1: ssh_key.generate
+            0: aws.ecr_login.check_docker,
+            1: utils.ssh_key.generate
         }
     }
     
