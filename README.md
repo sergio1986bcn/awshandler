@@ -15,6 +15,9 @@ AWSHandler es un script en Python para la gestión de servicios y recursos de AW
 python3 -m venv awshandler_env
 source awshandler_env/bin/activate
 
+## Instalar dependencias
+
+pip install -r requeriments.txt
 
 ## Creación alias
 
