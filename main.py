@@ -4,6 +4,7 @@ import aws
 from core import check_version, settings
 import utils
 import arguments
+from utils.repositories.actions.github_actions import crear_repositorio_github
 
 from simple_term_menu import TerminalMenu
 import signal
@@ -38,17 +39,13 @@ def main():
         ],
         "Utilidades": [
             "Login ECR",
-            "Create SSH key"
+            "Create SSH key",
+            "Create repositories"
+        ],
+        "Repositorios": [
+            "GitHub",
+            "Bitbucket"
         ]
-    }
-    
-    main_actions = {
-        0: lambda: handle_sub_menu(sub_menu_entries["AWS Configure"]),
-        1: aws.credentials.select,
-        2: aws.mfa.check,
-        3: aws.profiles.select,
-        4: lambda: handle_sub_menu(sub_menu_entries["Utilidades"]),
-        5: sys.exit
     }
     
     sub_actions = {
@@ -60,22 +57,52 @@ def main():
         },
         "Utilidades": {
             0: aws.ecr_login.check_docker,
-            1: utils.ssh_key.generate
+            1: utils.ssh_key.generate,
+            2: lambda: handle_sub_menu(sub_menu_entries["Repositorios"], "Repositorios")
+        },
+        "Repositorios": {
+            0: crear_repositorio_github,
+            1: lambda: print("Bitbucket: Funcionalidad no implementada aún.")
         }
     }
+
+    main_actions = {
+        0: lambda: handle_sub_menu(sub_menu_entries["AWS Configure"], "AWS Configure"),
+        1: aws.credentials.select,
+        2: aws.mfa.check,
+        3: aws.profiles.select,
+        4: lambda: handle_sub_menu(sub_menu_entries["Utilidades"], "Utilidades"),
+        5: sys.exit
+    }
     
-    def handle_sub_menu(sub_menu_list):
+    def handle_sub_menu(sub_menu_list, parent_menu=None):
         sub_menu = TerminalMenu(menu_entries=sub_menu_list, clear_screen=True)
         sub_select = sub_menu.show()
-        parent_menu = menu_entries[select]
-        sub_actions[parent_menu][sub_select]()
+
+        if sub_select is None:
+            return
+        
+        if parent_menu:
+            action = sub_actions.get(parent_menu, {}).get(sub_select)
+            if action:
+                action()
+        else:
+            action = main_actions.get(sub_select)
+            if action:
+                action()
     
     menu = TerminalMenu(menu_entries=menu_entries)
 
     while True:
         clear_screen()
         select = menu.show()
-        main_actions[select]()
+        if select is None:
+            break
+        action = main_actions.get(select)
+        if action:
+            action()
+        else:
+            print("Opción inválida en menú principal")
 
 
 # Salida con ctrl+c controlada

@@ -17,7 +17,7 @@ source /tmp/awshandler_env/bin/activate
 
 ## Instalar dependencias
 
-pip install -r requeriments.txt
+pip install -r requirements.txt
 
 ## Creación alias
 
